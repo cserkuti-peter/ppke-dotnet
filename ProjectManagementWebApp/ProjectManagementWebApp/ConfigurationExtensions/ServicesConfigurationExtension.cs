@@ -9,6 +9,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddHttpContextAccessor();
 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<IApplicationUserService, ApplicationUserService>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IProjectService, ProjectService>();

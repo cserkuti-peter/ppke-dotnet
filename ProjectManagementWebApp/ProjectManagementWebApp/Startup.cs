@@ -24,7 +24,8 @@ namespace ProjectManagementWebApp
             services.AddRazorPages();
 
             services.AddDbContext<ProjectManagementContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("ProjectManagementContext")));
+                    //options.UseSqlServer(Configuration.GetConnectionString("ProjectManagementContext")));
+                    options.UseInMemoryDatabase("ProjectManagementWebApp"));
 
             services.ConfigureServices();
         }
