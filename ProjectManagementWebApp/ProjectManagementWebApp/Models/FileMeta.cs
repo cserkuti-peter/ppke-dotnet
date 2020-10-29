@@ -4,7 +4,7 @@ namespace ProjectManagementWebApp.Models
 {
     public class FileMeta : EntityBase
     {
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public string FileId { get; set; }
 
         [ForeignKey(nameof(Task))]
