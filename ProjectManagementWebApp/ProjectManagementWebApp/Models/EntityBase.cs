@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectManagementWebApp.Models
 {
@@ -8,6 +9,8 @@ namespace ProjectManagementWebApp.Models
 
         public virtual DateTime Created { get; set; }
 
-        public virtual int CreatedBy { get; set; }
+        [ForeignKey(nameof(CreatedByUser))]
+        public virtual int CreatedByUserId { get; set; }
+        public virtual ApplicationUser CreatedByUser { get; set; }
     }
 }

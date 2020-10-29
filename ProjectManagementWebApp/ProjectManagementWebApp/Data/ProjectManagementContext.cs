@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 using ProjectManagementWebApp.Models;
 
 namespace ProjectManagementWebApp.Data
 {
-    public class ProjectManagementContext : DbContext
+    public class ProjectManagementContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
     {
         public ProjectManagementContext(DbContextOptions<ProjectManagementContext> options)
             : base(options)
