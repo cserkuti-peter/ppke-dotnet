@@ -29,6 +29,7 @@ namespace ProjectManagementWebApp
                     options.UseInMemoryDatabase("ProjectManagementWebApp"));
 
             services.ConfigureServices();
+            services.ConfiguraIdentity();
 
             services.AddSwaggerGen();
         }
@@ -62,6 +63,7 @@ namespace ProjectManagementWebApp
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
