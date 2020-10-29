@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectManagementWebApp.Models
 {
-    public class Project
+    public class Project : EntityBase
     {
-        public int ID { get; set; }
-
         //[Required(ErrorMessage = "You have to set it.")]
         [StringLength(60, MinimumLength = 3)]
         [Display(Name = "Project name")]
@@ -17,5 +13,8 @@ namespace ProjectManagementWebApp.Models
 
         [Display(Name = "Project description")]
         public string Description { get; set; }
+
+        [InverseProperty(nameof(Task.Project))]
+        public ICollection<Task> Tasks { get; set; }
     }
 }

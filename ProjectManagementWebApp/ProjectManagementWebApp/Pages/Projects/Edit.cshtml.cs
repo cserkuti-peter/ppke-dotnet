@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ProjectManagementWebApp.Data;
+
 using ProjectManagementWebApp.Models;
 
 namespace ProjectManagementWebApp.Pages.Projects
@@ -30,7 +28,7 @@ namespace ProjectManagementWebApp.Pages.Projects
                 return NotFound();
             }
 
-            Project = await _context.Project.FirstOrDefaultAsync(m => m.ID == id);
+            Project = await _context.Project.FirstOrDefaultAsync(m => m.Id == id);
 
             if (Project == null)
             {
@@ -56,7 +54,7 @@ namespace ProjectManagementWebApp.Pages.Projects
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProjectExists(Project.ID))
+                if (!ProjectExists(Project.Id))
                 {
                     return NotFound();
                 }
@@ -71,7 +69,7 @@ namespace ProjectManagementWebApp.Pages.Projects
 
         private bool ProjectExists(int id)
         {
-            return _context.Project.Any(e => e.ID == id);
+            return _context.Project.Any(e => e.Id == id);
         }
     }
 }

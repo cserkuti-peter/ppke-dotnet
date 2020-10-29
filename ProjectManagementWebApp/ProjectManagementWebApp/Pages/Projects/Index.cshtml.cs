@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using ProjectManagementWebApp.Data;
+
 using ProjectManagementWebApp.Models;
 
 namespace ProjectManagementWebApp.Pages.Projects
@@ -25,18 +23,18 @@ namespace ProjectManagementWebApp.Pages.Projects
             _context = context;
         }
 
-        public PaginatedList<Project> Project { get;set; }
+        public PaginatedList<Project> Project { get; set; }
 
-        public async Task OnGetAsync()
+        public async System.Threading.Tasks.Task OnGetAsync()
         {
             var projects = _context.Project.Select(x => x);
 
-            if (!String.IsNullOrEmpty(SearchString))
+            if (!string.IsNullOrEmpty(SearchString))
             {
                 projects = projects.Where(x => x.Name.Contains(SearchString));
             }
 
-            int pageSize = 3;
+            var pageSize = 3;
             Project = await PaginatedList<Project>.CreateAsync(projects.AsNoTracking(), PageIndex ?? 1, pageSize);
         }
     }

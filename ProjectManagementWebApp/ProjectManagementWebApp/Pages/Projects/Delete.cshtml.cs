@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using ProjectManagementWebApp.Data;
+
 using ProjectManagementWebApp.Models;
 
 namespace ProjectManagementWebApp.Pages.Projects
@@ -29,7 +27,7 @@ namespace ProjectManagementWebApp.Pages.Projects
                 return NotFound();
             }
 
-            Project = await _context.Project.FirstOrDefaultAsync(m => m.ID == id);
+            Project = await _context.Project.FirstOrDefaultAsync(m => m.Id == id);
 
             if (Project == null)
             {
