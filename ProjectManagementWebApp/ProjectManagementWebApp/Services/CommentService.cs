@@ -4,7 +4,8 @@ namespace ProjectManagementWebApp.Services
 {
     public class CommentService : ServiceBase, ICommentService
     {
-        public CommentService(ProjectManagementContext context) : base(context)
+        public CommentService(ProjectManagementContext context, ICurrentUserService currentUserService)
+            : base(context, currentUserService)
         {
         }
     }
