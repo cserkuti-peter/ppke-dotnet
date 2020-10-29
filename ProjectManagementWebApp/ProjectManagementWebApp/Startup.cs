@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
+
 using ProjectManagementWebApp.Data;
 
 namespace ProjectManagementWebApp
@@ -29,6 +25,8 @@ namespace ProjectManagementWebApp
 
             services.AddDbContext<ProjectManagementContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ProjectManagementContext")));
+
+            services.ConfigureServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
