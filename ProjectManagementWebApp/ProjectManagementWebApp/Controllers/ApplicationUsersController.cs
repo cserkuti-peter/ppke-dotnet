@@ -1,14 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using ProjectManagementWebApp.Dtos;
 using ProjectManagementWebApp.Services;
 
 namespace ProjectManagementWebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class ApplicationUsersController : ControllerBase
     {
         private readonly IApplicationUserService applicationUserService;
@@ -19,17 +21,23 @@ namespace ProjectManagementWebApp.Controllers
         }
 
         [HttpPost("sign-in")]
-        public async Task<bool> SignIn([Required, FromQuery] string userName, [Required, FromQuery] string password)
+        public async Task<bool> SignIn(SignInModel model)
         {
-            var result = await applicationUserService.SignInAsync(userName, password);
+            var result = await applicationUserService.SignInAsync(model);
 
             return result;
         }
 
         [HttpPost("sign-out")]
-        public async Task SignOut()
+        public async System.Threading.Tasks.Task SignOut()
         {
             await applicationUserService.SignOutAsync();
+        }
+
+        [HttpPost]
+        public async System.Threading.Tasks.Task CreateUser(CreateUserModel model)
+        {
+            await applicationUserService.CreateUserAsync(model);
         }
     }
 }

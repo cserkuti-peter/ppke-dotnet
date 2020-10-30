@@ -1,14 +1,16 @@
-﻿using ProjectManagementWebApp.Data;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Identity;
+
+using ProjectManagementWebApp.Data;
 
 namespace ProjectManagementWebApp.Models
 {
     public static class DbInitializer
     {
-        public static void Initialize(ProjectManagementContext context)
+        public static void Initialize(ProjectManagementContext context,
+            UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             context.Database.EnsureCreated();
 
@@ -27,6 +29,36 @@ namespace ProjectManagementWebApp.Models
 
             context.Project.AddRange(projects);
             context.SaveChanges();
+
+            InitializeRolesAsync(roleManager).GetAwaiter().GetResult();
+            InitializeAdminUser(userManager).GetAwaiter().GetResult();
+        }
+
+        private static async System.Threading.Tasks.Task InitializeRolesAsync(RoleManager<ApplicationRole> roleManager)
+        {
+            var roles = Enum.GetNames(typeof(Role));
+
+            foreach (var role in roles)
+            {
+                await roleManager.CreateAsync(new ApplicationRole { Name = role });
+            }
+        }
+
+        private static async System.Threading.Tasks.Task InitializeAdminUser(UserManager<ApplicationUser> userManager)
+        {
+            var user = new ApplicationUser
+            {
+                Name = "Admin User",
+                UserName = "admin@ProjectManagementWebApp.com",
+                Email = "admin@ProjectManagementWebApp.com",
+                Role = Role.Admin
+            };
+
+            var createResult = await userManager.CreateAsync(user, "4Dm1n_634h");
+
+            Console.WriteLine(createResult.Succeeded);
+
+            await userManager.AddToRoleAsync(user, Role.Admin.ToString());
         }
     }
 }

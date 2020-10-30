@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using ProjectManagementWebApp.Models;
@@ -11,6 +12,7 @@ namespace ProjectManagementWebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = nameof(Role.Admin))]
     public class ProjectsController : ControllerBase
     {
         private readonly IProjectService projectService;

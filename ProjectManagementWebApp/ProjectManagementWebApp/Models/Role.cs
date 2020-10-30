@@ -1,6 +1,6 @@
 ﻿namespace ProjectManagementWebApp.Models
 {
-    public enum Roles
+    public enum Role
     {
         Admin,
         ProjectManager,

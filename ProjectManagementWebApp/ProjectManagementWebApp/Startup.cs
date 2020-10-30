@@ -25,8 +25,8 @@ namespace ProjectManagementWebApp
             services.AddControllers();
 
             services.AddDbContext<ProjectManagementContext>(options =>
-                    //options.UseSqlServer(Configuration.GetConnectionString("ProjectManagementContext")));
-                    options.UseInMemoryDatabase("ProjectManagementWebApp"));
+                    options.UseSqlServer(Configuration.GetConnectionString("ProjectManagementContext")));
+            //options.UseInMemoryDatabase("ProjectManagementWebApp"));
 
             services.ConfigureServices();
             services.ConfiguraIdentity();

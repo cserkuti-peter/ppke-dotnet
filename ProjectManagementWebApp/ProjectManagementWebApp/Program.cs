@@ -1,6 +1,7 @@
 using System;
 
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -29,8 +30,10 @@ namespace ProjectManagementWebApp
                 try
                 {
                     var context = services.GetRequiredService<ProjectManagementContext>();
+                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                    var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
 
-                    DbInitializer.Initialize(context);
+                    DbInitializer.Initialize(context, userManager, roleManager);
                 }
                 catch (Exception)
                 {
