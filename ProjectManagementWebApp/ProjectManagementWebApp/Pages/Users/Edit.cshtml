@@ -22,7 +22,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="UserModel.Role" class="control-label"></label>
-                <input asp-for="UserModel.Role" class="form-control" />
+                <select asp-for="UserModel.Role" asp-items="Html.GetEnumSelectList<ProjectManagementWebApp.Models.Role>()">
+                    <option selected="selected" value="">Please select</option>
+                </select>
                 <span asp-validation-for="UserModel.Role" class="text-danger"></span>
             </div>
             <div class="form-group">

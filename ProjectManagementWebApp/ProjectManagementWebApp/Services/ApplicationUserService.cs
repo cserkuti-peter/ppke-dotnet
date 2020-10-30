@@ -110,9 +110,10 @@ namespace ProjectManagementWebApp.Services
 
             if (user.Role != model.Role)
             {
-                user.Role = model.Role;
                 await signInManager.UserManager.RemoveFromRoleAsync(user, user.Role.ToString());
-                await AddToRoleAsync(user, user.Role);
+                await AddToRoleAsync(user, model.Role);
+
+                user.Role = model.Role;
             }
 
             await context.SaveChangesAsync();
@@ -125,7 +126,7 @@ namespace ProjectManagementWebApp.Services
                 await roleManager.CreateAsync(new ApplicationRole { Name = role.ToString() });
             }
 
-            await signInManager.UserManager.AddToRoleAsync(user, user.Role.ToString());
+            await signInManager.UserManager.AddToRoleAsync(user, role.ToString());
         }
     }
 }

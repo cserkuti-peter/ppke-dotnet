@@ -23,11 +23,6 @@ namespace ProjectManagementWebApp.Pages.Users
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             UserModel = await service.GetUserAsync(id);
 
             if (UserModel == null)
