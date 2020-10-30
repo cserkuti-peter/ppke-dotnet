@@ -15,5 +15,7 @@ namespace ProjectManagementWebApp.Models
         public ICollection<Task> Tasks { get; set; }
 
         public Role Role { get; set; }
+
+        public string ProfilePicture { get; set; }
     }
 }

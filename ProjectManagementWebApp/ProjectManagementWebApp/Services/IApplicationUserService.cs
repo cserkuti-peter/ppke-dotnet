@@ -12,5 +12,6 @@ namespace ProjectManagementWebApp.Services
         System.Threading.Tasks.Task<bool> DeleteAsync(int id);
         System.Threading.Tasks.Task UpdateAsync(UserViewModel model);
         System.Threading.Tasks.Task ChangePasswordAsync(ChangePasswordViewModel model);
+        System.Threading.Tasks.Task UpdateProfilePictureAsync(int id, string profilePicture);
     }
 }

@@ -29,6 +29,14 @@
                     }
                 </ul>
             }
+            @if (!string.IsNullOrEmpty(Model.UserModel.ProfilePicture))
+            {
+                <hr />
+                <div class="form-group">
+                    <img src="~/images/@Model.UserModel.ProfilePicture" class="img" alt="Profile" width="100" height="100" />
+                </div>
+                <hr />
+            }
             <div class="form-group">
                 <label asp-for="UserModel.Name" class="control-label"></label>
                 <input asp-for="UserModel.Name" class="form-control" />
@@ -44,6 +52,10 @@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
+        </form>
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" asp-for="Upload" value="Select file..." class="btn btn-secondary"/>
+            <input type="submit" asp-page-handler="File" value="Upload" class="btn btn-primary" asp-route-id="@Model.UserModel.Id"/>
         </form>
     </div>
 </div>

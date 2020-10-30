@@ -1,6 +1,10 @@
+using System;
+using System.IO;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -15,14 +19,19 @@ namespace ProjectManagementWebApp.Pages.Users
     public class EditModel : PageModel
     {
         private readonly IApplicationUserService service;
+        private readonly IWebHostEnvironment environment;
 
-        public EditModel(IApplicationUserService service)
+        public EditModel(IApplicationUserService service, IWebHostEnvironment environment)
         {
             this.service = service;
+            this.environment = environment;
         }
 
         [BindProperty]
         public UserViewModel UserModel { get; set; }
+
+        [BindProperty]
+        public IFormFile Upload { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -65,6 +74,28 @@ namespace ProjectManagementWebApp.Pages.Users
             await service.UpdateAsync(UserModel);
 
             return RedirectToPage("./Index");
+        }
+
+        public async Task<IActionResult> OnPostFileAsync(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var fileId = Guid.NewGuid().ToString();
+            var extension = Path.GetExtension(Upload.FileName);
+            var path = Path.Combine(environment.WebRootPath, "images", $"{fileId}{extension}");
+
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                await Upload.CopyToAsync(fileStream);
+            }
+
+            var fileName = Path.GetFileName(path);
+            await service.UpdateProfilePictureAsync(id, fileName);
+
+            return RedirectToPage(new { Id = id });
         }
     }
 }

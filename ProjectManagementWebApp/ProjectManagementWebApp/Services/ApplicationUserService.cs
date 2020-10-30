@@ -35,7 +35,7 @@ namespace ProjectManagementWebApp.Services
         public async Task<PaginatedList<UserViewModel>> GetUsersAsync(string searchString, int? pageIndex)
         {
             var users = context.Set<ApplicationUser>()
-                .Select(x => new UserViewModel { Id = x.Id, Email = x.Email, Name = x.Name, Role = x.Role });
+                .Select(x => new UserViewModel { Id = x.Id, Email = x.Email, Name = x.Name, Role = x.Role, ProfilePicture = x.ProfilePicture });
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -90,7 +90,7 @@ namespace ProjectManagementWebApp.Services
                 return null;
             }
 
-            return new UserViewModel { Id = user.Id, Email = user.Email, Name = user.Name, Role = user.Role };
+            return new UserViewModel { Id = user.Id, Email = user.Email, Name = user.Name, Role = user.Role, ProfilePicture = user.ProfilePicture };
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -166,6 +166,15 @@ namespace ProjectManagementWebApp.Services
             {
                 throw new IdentityResultException { Result = result };
             }
+        }
+
+        public async System.Threading.Tasks.Task UpdateProfilePictureAsync(int id, string profilePicture)
+        {
+            var user = await context.Set<ApplicationUser>().AsTracking().SingleAsync(x => x.Id == id);
+
+            user.ProfilePicture = profilePicture;
+
+            await context.SaveChangesAsync();
         }
     }
 }
