@@ -13,6 +13,20 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if(ModelState.ErrorCount > 0)
+            {
+                <ul>
+                    @foreach (var item in ModelState)
+                    {
+                        @if (item.Value.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                        {
+                            <li>
+                                <span class="text-danger">@item.Key</span>: @string.Join(';', item.Value.Errors.Select(x => x.ErrorMessage).ToList())
+                            </li>
+                        }
+                    }
+                </ul>
+            }
             <div class="form-group">
                 <label asp-for="UserModel.Name" class="control-label"></label>
                 <input asp-for="UserModel.Name" class="form-control" />

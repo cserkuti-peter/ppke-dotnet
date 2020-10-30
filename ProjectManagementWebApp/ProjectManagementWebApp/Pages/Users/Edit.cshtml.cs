@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using ProjectManagementWebApp.Dtos;
+using ProjectManagementWebApp.Exceptions;
 using ProjectManagementWebApp.Models;
 using ProjectManagementWebApp.Services;
 
@@ -30,7 +31,19 @@ namespace ProjectManagementWebApp.Pages.Users
                 return NotFound();
             }
 
-            UserModel = await service.GetUserAsync(id);
+            try
+            {
+                UserModel = await service.GetUserAsync(id);
+            }
+            catch (IdentityResultException ire)
+            {
+                foreach (var error in ire.Result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+
+                return Page();
+            }
 
             if (UserModel == null)
             {

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using ProjectManagementWebApp.Dtos;
+using ProjectManagementWebApp.Exceptions;
 using ProjectManagementWebApp.Models;
 using ProjectManagementWebApp.Services;
 
@@ -35,7 +36,19 @@ namespace ProjectManagementWebApp.Pages.Users
                 return Page();
             }
 
-            await service.CreateUserAsync(UserModel);
+            try
+            {
+                await service.CreateUserAsync(UserModel);
+            }
+            catch (IdentityResultException ire)
+            {
+                foreach (var error in ire.Result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+
+                return Page();
+            }
 
             return RedirectToPage("./Index");
         }

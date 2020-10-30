@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ProjectManagementWebApp.Constants;
 using ProjectManagementWebApp.Data;
 using ProjectManagementWebApp.Dtos;
+using ProjectManagementWebApp.Exceptions;
 using ProjectManagementWebApp.Models;
 
 namespace ProjectManagementWebApp.Services
@@ -163,7 +164,7 @@ namespace ProjectManagementWebApp.Services
         {
             if (!result.Succeeded)
             {
-                throw new Exception(string.Join(';', result.Errors));
+                throw new IdentityResultException { Result = result };
             }
         }
     }
