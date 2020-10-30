@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+using ProjectManagementWebApp.Constants;
 using ProjectManagementWebApp.Data;
 using ProjectManagementWebApp.Dtos;
 using ProjectManagementWebApp.Models;
@@ -50,9 +51,12 @@ namespace ProjectManagementWebApp.Services
         {
             var user = new ApplicationUser { Email = model.Email, EmailConfirmed = true, UserName = model.Email, Name = model.Name, Role = model.Role };
 
-            await signInManager.UserManager.CreateAsync(user, model.Password);
+            var result = await signInManager.UserManager.CreateAsync(user, model.Password);
+
+            HandleIdentityResult(result);
 
             await AddToRoleAsync(user, model.Role);
+            await AddClaimToUserAsync(user, Claims.APP_USER_ID, user.Id.ToString());
         }
 
         public async Task<bool> SignInAsync(SignInModel model)
@@ -131,20 +135,36 @@ namespace ProjectManagementWebApp.Services
 
             var result = await signInManager.UserManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
 
-            if (!result.Succeeded)
-            {
-                throw new Exception();
-            }
+            HandleIdentityResult(result);
         }
 
         private async System.Threading.Tasks.Task AddToRoleAsync(ApplicationUser user, Role role)
         {
             if (!await roleManager.RoleExistsAsync(role.ToString()))
             {
-                await roleManager.CreateAsync(new ApplicationRole { Name = role.ToString() });
+                var createRoleresult = await roleManager.CreateAsync(new ApplicationRole { Name = role.ToString() });
+
+                HandleIdentityResult(createRoleresult);
             }
 
-            await signInManager.UserManager.AddToRoleAsync(user, role.ToString());
+            var result = await signInManager.UserManager.AddToRoleAsync(user, role.ToString());
+
+            HandleIdentityResult(result);
+        }
+
+        private async System.Threading.Tasks.Task AddClaimToUserAsync(ApplicationUser user, string claimName, string claimValue)
+        {
+            var result = await signInManager.UserManager.AddClaimAsync(user, new System.Security.Claims.Claim(claimName, claimValue));
+
+            HandleIdentityResult(result);
+        }
+
+        private void HandleIdentityResult(IdentityResult result)
+        {
+            if (!result.Succeeded)
+            {
+                throw new Exception(string.Join(';', result.Errors));
+            }
         }
     }
 }

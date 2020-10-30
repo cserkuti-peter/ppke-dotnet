@@ -3,6 +3,7 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Identity;
 
+using ProjectManagementWebApp.Constants;
 using ProjectManagementWebApp.Data;
 
 namespace ProjectManagementWebApp.Models
@@ -19,6 +20,9 @@ namespace ProjectManagementWebApp.Models
                 return;
             }
 
+            InitializeRolesAsync(roleManager).GetAwaiter().GetResult();
+            InitializeAdminUser(userManager).GetAwaiter().GetResult();
+
             var projects = new Project[]
             {
                 new Project  { Name = "Project #1", Description = "Description #1"},
@@ -29,9 +33,6 @@ namespace ProjectManagementWebApp.Models
 
             context.Project.AddRange(projects);
             context.SaveChanges();
-
-            InitializeRolesAsync(roleManager).GetAwaiter().GetResult();
-            InitializeAdminUser(userManager).GetAwaiter().GetResult();
         }
 
         private static async System.Threading.Tasks.Task InitializeRolesAsync(RoleManager<ApplicationRole> roleManager)
@@ -59,6 +60,7 @@ namespace ProjectManagementWebApp.Models
             Console.WriteLine(createResult.Succeeded);
 
             await userManager.AddToRoleAsync(user, Role.Admin.ToString());
+            await userManager.AddClaimAsync(user, new System.Security.Claims.Claim(Claims.APP_USER_ID, user.Id.ToString()));
         }
     }
 }
