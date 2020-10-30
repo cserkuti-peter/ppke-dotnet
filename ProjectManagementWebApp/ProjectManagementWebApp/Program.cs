@@ -7,19 +7,39 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using ProjectManagementWebApp.Data;
+using ProjectManagementWebApp.Logging;
 using ProjectManagementWebApp.Models;
+
+using Serilog;
 
 namespace ProjectManagementWebApp
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static int Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
+            SeriLogConfiguration.CreateLoggerConfiguration();
 
-            CreateDbIfNotExists(host);
+            try
+            {
+                var host = CreateHostBuilder(args).Build();
 
-            host.Run();
+                CreateDbIfNotExists(host);
+
+                host.Run();
+
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+
+                return 1;
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         private static void CreateDbIfNotExists(IHost host)
@@ -46,6 +66,7 @@ namespace ProjectManagementWebApp
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
