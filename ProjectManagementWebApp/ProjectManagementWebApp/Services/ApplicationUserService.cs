@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
@@ -117,6 +118,23 @@ namespace ProjectManagementWebApp.Services
             }
 
             await context.SaveChangesAsync();
+        }
+
+        public async System.Threading.Tasks.Task ChangePasswordAsync(ChangePasswordViewModel model)
+        {
+            var user = await signInManager.UserManager.FindByEmailAsync(model.Email);
+
+            if (user == null)
+            {
+                throw new Exception();
+            }
+
+            var result = await signInManager.UserManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception();
+            }
         }
 
         private async System.Threading.Tasks.Task AddToRoleAsync(ApplicationUser user, Role role)
