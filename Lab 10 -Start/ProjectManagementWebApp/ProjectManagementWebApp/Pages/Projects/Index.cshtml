@@ -1,0 +1,70 @@
+﻿@page
+@model ProjectManagementWebApp.Pages.Projects.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Projects</h1>
+
+<p>
+    <a asp-page="Create">New project</a>
+</p>
+
+<form method="get">
+    <p>
+
+        Search name: <input type="text" asp-for="SearchString" />
+        <input type="hidden" asp-for="PageIndex" value="@(Model.Project.PageIndex)" />
+        <input type="submit" value="Filter" />
+    </p>
+
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Project[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Project[0].Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Project)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Secret)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Project.PageIndex -1)"
+   asp-route-searchString="@(Model.SearchString)"
+   class="btn btn-primary @((!Model.Project.HasPreviousPage) ? "disabled" : "" )">
+    Prev
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Project.PageIndex + 1)"
+    asp-route-searchString="@(Model.SearchString)"
+   class="btn btn-primary @((!Model.Project.HasNextPage) ? "disabled" : "" )">
+    Next
+</a>
