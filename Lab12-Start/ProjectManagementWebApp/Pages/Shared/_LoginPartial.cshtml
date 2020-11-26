@@ -1,0 +1,27 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using Microsoft.AspNetCore.Identity
+@using ProjectManagementWebApp.Models 
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+}
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            Hello @User.Identity.Name
+        </li>
+        <li class="nav-item">
+           <form class="form-inline" asp-area="Identity" asp-page="Users/SignOut" asp-route-returnUrl="@Url.Page("/", new { area = ""})" method="post"> 
+               <button type="submit" class="nav-link btn btn-link text-dark"> Sign out</button>
+           </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Users/SignIn">Login</a>
+        </li>
+    }
+</ul>
