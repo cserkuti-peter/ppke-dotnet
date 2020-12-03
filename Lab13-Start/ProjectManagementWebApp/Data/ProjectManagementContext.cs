@@ -17,7 +17,7 @@ namespace ProjectManagementWebApp.Data
 
         public DbSet<ProjectManagementWebApp.Models.Project> Project { get; set; }
         public DbSet<ProjectManagementWebApp.Models.TaskModel> Tasks { get; set; }
-        public DbSet<ProjectManagementWebApp.Models.Comment> Commenta { get; set; }
+        public DbSet<ProjectManagementWebApp.Models.Comment> Comments { get; set; }
         public DbSet<ProjectManagementWebApp.Models.FileMeta> FileMetas { get; set; }
 
 

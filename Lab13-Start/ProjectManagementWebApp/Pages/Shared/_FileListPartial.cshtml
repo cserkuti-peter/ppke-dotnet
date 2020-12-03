@@ -12,7 +12,6 @@
                 @Html.DisplayNameFor(model => model[0].FileName)
             </th>
           
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -22,11 +21,7 @@
                 <td>
                     <a href="~/taskfiles/@item.FileName">@item.FileName </a>
                 </td>               
-                <td>
-                    <form method="post" enctype="multipart/form-data">
-                        <input type="submit" asp-page="/Tasks/Details/" asp-page-handler="DeleteFile" value="Delete" class="btn btn-primary" asp-route-id="@item.Id" />
-                    </form>
-                </td>
+               
             </tr>
         }
     </tbody>

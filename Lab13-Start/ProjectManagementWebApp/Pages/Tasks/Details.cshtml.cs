@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectManagementWebApp.Services;
+using ProjectManagementWebApp.ViewModels;
 using ProjectManagementWebApp.ViewModels.TaskViewModels;
 using System.IO;
 using System.Threading.Tasks;
@@ -14,17 +15,20 @@ namespace ProjectManagementWebApp.Pages.Tasks
         private readonly ProjectManagementWebApp.Data.ProjectManagementContext _context;
         private readonly TaskAppService _taskAppService;
         private readonly FileAppService _fileAppService;
+        private readonly CommentAppService _commentAppService;
         private readonly IWebHostEnvironment _environment;
 
         public DetailsModel(ProjectManagementWebApp.Data.ProjectManagementContext context,
             TaskAppService taskAppService,
             FileAppService fileAppService,
+            CommentAppService commentAppService,
             IWebHostEnvironment environment
             )
         {
             _context = context;
             _taskAppService = taskAppService;
             _fileAppService = fileAppService;
+            _commentAppService = commentAppService;
             this._environment = environment;
         }
 
@@ -32,6 +36,10 @@ namespace ProjectManagementWebApp.Pages.Tasks
 
         [BindProperty]
         public IFormFile Upload { get; set; }
+
+
+        [BindProperty]
+        public CreateCommentViewModel Comment { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -55,6 +63,11 @@ namespace ProjectManagementWebApp.Pages.Tasks
             return Partial("_FileListPartial", await _fileAppService.ListTaskFilesASync(id.Value));
         }
 
+        public async Task<PartialViewResult> OnGetCommentListPartial(int? id)
+        {
+            return Partial("_CommentListPartial", await _commentAppService.ListCommentsAsync(id.Value));
+        }
+
         public async Task<IActionResult> OnPostFileAsync(int id)
         {
             if (!ModelState.IsValid)
@@ -72,6 +85,19 @@ namespace ProjectManagementWebApp.Pages.Tasks
 
             var fileName = Path.GetFileName(path);
             await _fileAppService.UploadFileAsync(id, fileName);
+
+            return RedirectToPage(new { Id = id });
+        }
+
+        public async Task<IActionResult> OnPostCommentAsync(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+            Comment.TaskId = id;
+
+            await _commentAppService.CreateCommentAsync(Comment);
 
             return RedirectToPage(new { Id = id });
         }

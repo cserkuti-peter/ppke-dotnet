@@ -46,7 +46,7 @@ namespace ProjectManagementWebApp.Pages.Tasks
             var model = await _taskAppService.GetTaskViewModelForDetailsAsync(id.Value);
             await _taskAppService.DeleteTasksAsync(id.Value);
 
-            return RedirectToPage($"/Projects/Details?id={model.ProjectId}");
+            return RedirectToPage($"/Projects/Details", new { id = TaskModel.ProjectId });
         }
     }
 }

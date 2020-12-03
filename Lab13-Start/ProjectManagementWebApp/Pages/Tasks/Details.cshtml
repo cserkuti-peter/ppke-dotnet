@@ -40,6 +40,24 @@
     </form>
 </div>
 <div id="files"></div>
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Comment.Comment" class="control-label"></label>
+                <input asp-for="Comment.Comment" class="form-control" />
+                <span asp-validation-for="Comment.Comment" class="text-danger"></span>
+            </div>          
+
+          
+            <div class="form-group">
+                <input type="submit"  asp-page-handler="Comment" value="Comment" asp-route-id="@Model.TaskModel.Id" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
 <div id="comments"></div>
 <div>
     <a asp-page="/Tasks/Edit" asp-route-id="@Model.TaskModel.Id">Edit</a> |
@@ -50,6 +68,7 @@
         $(function () {
             $(document).ready(function () {
                 $('#files').load('/Tasks/Details/?handler=FileListPartial&id=@Model.TaskModel.Id');
+                 $('#comments').load('/Tasks/Details/?handler=CommentListPartial&id=@Model.TaskModel.Id');
             });
         });
     </script>

@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30406.217
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectManagementWebApp", "ProjectManagementWebApp\ProjectManagementWebApp.csproj", "{91E6F91F-5573-42D4-8CE0-3647881D6D5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectRazorPagesIntegrationTests", "ProjectRazorPagesIntegrationTests\ProjectRazorPagesIntegrationTests.csproj", "{39DC0CCC-F030-46E7-81A3-D47CFB992C5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectRazorPagesIntegrationTests", "ProjectRazorPagesIntegrationTests\ProjectRazorPagesIntegrationTests.csproj", "{39DC0CCC-F030-46E7-81A3-D47CFB992C5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManagementRestApi", "ProjectManagementRestApi\ProjectManagementRestApi.csproj", "{307F2DE0-D91F-4022-AFCE-35CF294C9810}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectManagementRestApi", "ProjectManagementRestApi\ProjectManagementRestApi.csproj", "{307F2DE0-D91F-4022-AFCE-35CF294C9810}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
