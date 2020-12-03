@@ -1,0 +1,55 @@
+﻿@page
+@model ProjectManagementWebApp.Pages.Tasks.EditModel
+
+@{
+
+}
+
+<h4>TaskModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TaskModel.Id" />
+            <div class="form-group">
+                <label asp-for="TaskModel.Name" class="control-label"></label>
+                <input asp-for="TaskModel.Name" class="form-control" />
+                <span asp-validation-for="TaskModel.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskModel.Description" class="control-label"></label>
+                <input asp-for="TaskModel.Description" class="form-control" />
+                <span asp-validation-for="TaskModel.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskModel.Started" class="control-label"></label>
+                <input asp-for="TaskModel.Started" class="form-control" />
+                <span asp-validation-for="TaskModel.Started" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskModel.Deadline" class="control-label"></label>
+                <input asp-for="TaskModel.Deadline" class="form-control" />
+                <span asp-validation-for="TaskModel.Deadline" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="TaskModel.ProjectId" value="@Model.TaskModel.ProjectId" />
+           
+            <div class="form-group">
+                <label asp-for="TaskModel.UserId" class="control-label"></label>
+                <select asp-for="TaskModel.UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                <span asp-validation-for="TaskModel.UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="/Projects/Details" asp-route-id="@Model.TaskModel.ProjectId">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

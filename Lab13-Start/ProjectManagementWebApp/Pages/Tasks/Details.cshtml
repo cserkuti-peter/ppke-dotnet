@@ -1,0 +1,56 @@
+﻿@page
+@model ProjectManagementWebApp.Pages.Tasks.DetailsModel
+
+@{
+
+}
+
+<div>
+    <h4>TaskModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TaskModel.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TaskModel.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TaskModel.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TaskModel.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TaskModel.Started)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TaskModel.Started)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TaskModel.Deadline)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TaskModel.Deadline)
+        </dd>
+    </dl>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" asp-for="Upload" value="Select file..." class="btn btn-secondary" />
+        <input type="submit" asp-page-handler="File" value="Upload" class="btn btn-primary" asp-route-id="@Model.TaskModel.Id" />
+    </form>
+</div>
+<div id="files"></div>
+<div id="comments"></div>
+<div>
+    <a asp-page="/Tasks/Edit" asp-route-id="@Model.TaskModel.Id">Edit</a> |
+    <a asp-page="/Projects/Details" asp-route-id="@ViewBag.ProjectId">Back to List</a>
+</div>
+@section scripts{
+    <script>
+        $(function () {
+            $(document).ready(function () {
+                $('#files').load('/Tasks/Details/?handler=FileListPartial&id=@Model.TaskModel.Id');
+            });
+        });
+    </script>
+}
